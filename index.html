@@ -13,7 +13,7 @@
 html,body{height:100vh;height:100dvh;overflow:hidden;background:#2b160a;overscroll-behavior:none}
 body{font-family:'Nunito',system-ui,sans-serif;user-select:none;-webkit-user-select:none;
   -webkit-touch-callout:none;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
-#game{position:fixed;inset:0;touch-action:none;display:block}
+#game{position:fixed;left:0;top:0;touch-action:none;display:block}
 body.playing #game{cursor:none}
 .hidden{display:none!important}
 button{touch-action:manipulation;font-family:inherit}
@@ -52,6 +52,7 @@ body.fever #feverFill{animation:flick .25s infinite alternate}
   background:rgba(30,16,8,.6);color:#ffe3b3;font-size:19px;cursor:pointer;transition:transform .1s}
 .iconBtn:hover{transform:scale(1.12)}
 .iconBtn.off{opacity:.4;filter:grayscale(1)}
+#fsBtn{border-color:rgba(139,212,80,.6);background:rgba(24,40,16,.7)}
 #soundBtns{position:fixed;right:calc(14px + env(safe-area-inset-right));
   bottom:calc(14px + env(safe-area-inset-bottom));display:flex;gap:8px;z-index:6}
 #toasts{position:fixed;top:calc(8px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);
@@ -64,14 +65,15 @@ body.fever #feverFill{animation:flick .25s infinite alternate}
 .toast small{color:#c9a97e;font-weight:700}
 @keyframes toastIn{from{opacity:0;transform:translateY(-30px) scale(.8)}}
 @keyframes toastOut{to{opacity:0;transform:translateY(-16px)}}
-.overlay{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:8px;
+/* Overlays: sicher zentrieren + sauber scrollen (nichts wird oben abgeschnitten) */
+.overlay{position:fixed;z-index:10;display:flex;align-items:flex-start;justify-content:center;
+  overflow-y:auto;overscroll-behavior:contain;padding:10px;
   background:radial-gradient(ellipse at center,rgba(0,0,0,.15),rgba(0,0,0,.6));animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0}}
-.panel{position:relative;text-align:center;padding:32px 40px 28px;border-radius:26px;
+.panel{margin:auto;position:relative;text-align:center;padding:32px 40px 28px;border-radius:26px;
   background:linear-gradient(180deg,rgba(43,22,10,.86),rgba(26,12,5,.92));
   border:3px solid rgba(255,205,130,.28);box-shadow:0 40px 90px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08);
-  max-width:min(94vw,620px);max-height:calc(100dvh - 16px);overflow-y:auto;overscroll-behavior:contain;
-  -webkit-overflow-scrolling:touch}
+  width:min(94vw,620px)}
 .panel::before{content:"忍";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-size:min(300px,60vw);color:rgba(255,70,50,.09);pointer-events:none;line-height:1}
 .panel>*{position:relative}
@@ -139,7 +141,6 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;
 .chip.active{border-color:#8bd450;box-shadow:0 0 12px rgba(139,212,80,.4)}
 .chip.owned{border-color:#ffd257}
 .chip .sw{display:inline-block;width:26px;height:10px;border-radius:6px;margin-right:6px;vertical-align:middle}
-/* --- kleine Screens (Handy hochkant) --- */
 @media (max-width:560px){
   .panel{padding:22px 14px 20px;border-radius:20px}
   .btn{padding:10px 12px 8px;border-bottom-width:5px;border-radius:13px}
@@ -160,7 +161,6 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;
   .finalScore{font-size:clamp(40px,13vw,64px)}
   .chip{font-size:11px;padding:7px 9px}
 }
-/* --- Landscape / sehr niedrige Screens --- */
 @media (max-height:520px){
   .panel{padding:14px 16px;border-radius:18px}
   .panel::before{display:none}
@@ -177,7 +177,6 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;
   .scoreList div{font-size:11px;padding:1px 10px}
   .finalScore{font-size:clamp(30px,9vh,56px)}
   h2.head{font-size:clamp(22px,5.5vh,34px)}
-  .tag{margin:4px 0}
   #rankBox{padding:4px 14px 3px;margin:2px 0}
 }
 </style>
@@ -204,7 +203,7 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;
   </div>
 </div>
 <div id="soundBtns">
-  <button id="fsBtn" class="iconBtn" title="Vollbild">⛶</button>
+  <button id="fsBtn" class="iconBtn" title="Vollbild (F)">⛶</button>
   <button id="musicBtn" class="iconBtn" title="Musik an/aus">🎵</button>
   <button id="sfxBtn" class="iconBtn" title="Effekte an/aus">🔊</button>
 </div>
@@ -232,7 +231,7 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;
     <div class="scoreList" id="menuScores"></div>
     <div id="achCount"></div>
     <div id="achRow"></div>
-    <div class="keys">Tasten: P = Pause · M = Effekte · N = Musik</div>
+    <div class="keys">Tasten: P = Pause · F = Vollbild · M = Effekte · N = Musik</div>
   </div>
 </div>
 
@@ -295,6 +294,18 @@ const glowWarm=(()=>{const c=document.createElement('canvas');c.width=c.height=1
   r.addColorStop(0,'rgba(255,175,85,1)');r.addColorStop(.5,'rgba(255,150,60,.35)');r.addColorStop(1,'rgba(255,140,50,0)');
   g.fillStyle=r;g.fillRect(0,0,128,128);return c;})();
 let gvMiss,gvFever,gvFrenzy,gvZen;
+
+/* Sichtbarer Bereich (visualViewport) – garantiert echtes Zentrum auf Mobile */
+function getView(){
+  const vv=window.visualViewport;
+  if(vv)return{w:Math.round(vv.width),h:Math.round(vv.height),l:Math.round(vv.offsetLeft),t:Math.round(vv.offsetTop)};
+  return{w:window.innerWidth,h:window.innerHeight,l:0,t:0};
+}
+function layoutOverlays(v){
+  document.querySelectorAll('.overlay').forEach(o=>{
+    o.style.left=v.l+'px';o.style.top=v.t+'px';o.style.width=v.w+'px';o.style.height=v.h+'px';
+  });
+}
 
 /* ================= SHOP ================= */
 const SHOP={
@@ -796,9 +807,12 @@ const attractRadius=()=>Math.min(400,Math.max(W,H)*.55);
 
 /* ================= LAYOUT ================= */
 function resize(){
+  const v=getView();
+  W=v.w;H=v.h;
   DPR=Math.min(baseDPR,[baseDPR,1.5,1.25,1][qLvl]);
   PARTQ=[1,.7,.5,.35][qLvl];
-  W=window.innerWidth;H=window.innerHeight;
+  cv.style.left=v.l+'px';cv.style.top=v.t+'px';
+  cv.style.width=W+'px';cv.style.height=H+'px';
   cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);
   ctx.setTransform(DPR,0,0,DPR,0,0);
   GRAV=H*1.15;
@@ -806,6 +820,7 @@ function resize(){
   cam.fx=clamp(cam.fx,0,W);cam.fy=clamp(cam.fy,0,H);
   camTX=W/2;camTY=H/2;
   LANT=[[W*.1,H*.17],[W*.9,H*.17]];
+  layoutOverlays(v);
   buildBg();buildVign();
   splatC=document.createElement('canvas');splatC.width=cv.width;splatC.height=cv.height;
   sctx=splatC.getContext('2d');sctx.setTransform(DPR,0,0,DPR,0,0);
@@ -1586,13 +1601,13 @@ addEventListener('keydown',e=>{
   if(e.key==='p'||e.key==='P'||e.key==='Escape'){
     if(state==='play')pauseGame();else if(state==='pause')resumeGame();
   }
+  if(e.key==='f'||e.key==='F')toggleFS();
   if(e.key==='m'||e.key==='M')toggleSfx();
   if(e.key==='n'||e.key==='N')toggleMusic();
   if(e.key===' '||e.key==='Enter'){if(state==='menu'||state==='over')startGame(lastMode);}
 });
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='play')pauseGame();});
 addEventListener('blur',()=>{if(state==='play')pauseGame();});
-window.visualViewport&&window.visualViewport.addEventListener('resize',resize);
 
 /* ================= UI ================= */
 function renderLives(){
@@ -1656,15 +1671,9 @@ function startGame(m){
   beatEpoch=startTime;lastBeatInt=Math.floor(getBeat());
   cam.z=1;cam.fx=W/2;cam.fy=H/2;camTX=W/2;camTY=H/2;
   $('menu').classList.add('hidden');$('over').classList.add('hidden');$('hud').classList.remove('hidden');
-  if(isTouch){
-    if(W>H&&!localStorage.getItem('fnRotTip')){
-      localStorage.setItem('fnRotTip','1');
-      showToast('📱','TIPP','Hochformat spielt sich angenehmer');
-    }
-    if(!localStorage.getItem('fnFsTip')){
-      localStorage.setItem('fnFsTip','1');
-      showToast('⛶','TIPP','Vollbild-Button unten rechts schafft mehr Platz');
-    }
+  if(isTouch&&W>H&&!localStorage.getItem('fnRotTip')){
+    localStorage.setItem('fnRotTip','1');
+    showToast('📱','TIPP','Hochformat spielt sich angenehmer');
   }
   if(!localStorage.getItem('fnTutDone')&&m!=='duel'){
     tutPop={x:W/2,y:H*.55,txt:'↔ WISCHE ÜBER DIE FRÜCHTE!',col:'#fff',size:Math.min(30,W*.055),big:true,t:0,ttl:3.5,vy:-8};
@@ -1767,6 +1776,16 @@ function toggleSfx(){
   $('sfxBtn').textContent=sfxMuted?'🔇':'🔊';
   $('sfxBtn').classList.toggle('off',sfxMuted);
 }
+function toggleFS(){
+  try{
+    if(document.fullscreenElement){document.exitFullscreen();showToast('⛶','VOLLBILD','Beendet');}
+    else if(document.documentElement.requestFullscreen){
+      document.documentElement.requestFullscreen();
+      showToast('⛶','VOLLBILD','Aktiviert – viel Spaß!');
+    }
+    else showToast('⛶','NICHT VERFÜGBAR','Dein Browser unterstützt kein Vollbild');
+  }catch(e){showToast('⛶','NICHT VERFÜGBAR','Dein Browser unterstützt kein Vollbild');}
+}
 window.addEventListener('pointerdown',()=>{ensureAudio();initMusic();},{capture:true});
 $('btnClassic').onclick=()=>startGame('classic');
 $('btnZen').onclick=()=>startGame('zen');
@@ -1780,12 +1799,7 @@ $('resumeBtn').onclick=()=>{sfx.click();resumeGame();};
 $('pauseBtn').onclick=()=>{if(state==='play')pauseGame();};
 $('musicBtn').onclick=toggleMusic;
 $('sfxBtn').onclick=toggleSfx;
-$('fsBtn').onclick=()=>{
-  try{
-    if(document.fullscreenElement)document.exitFullscreen();
-    else document.documentElement.requestFullscreen();
-  }catch(e){}
-};
+$('fsBtn').onclick=toggleFS;
 $('shareBtn').onclick=()=>{
   let txt;
   if(mode==='duel')txt=`🍉 Fruit Ninja Duell: ${s1} : ${s2}! 🥷 Wer gewinnt bei euch?`;
@@ -1813,8 +1827,14 @@ function frame(now){
   if(state!=='pause'&&!frozen)update(dt,now);
   render(now);
 }
+let rzReq=0;
+function reqResize(){if(rzReq)return;rzReq=requestAnimationFrame(()=>{rzReq=0;resize();});}
 resize();
-addEventListener('resize',resize);
+addEventListener('resize',reqResize);
+if(window.visualViewport){
+  visualViewport.addEventListener('resize',reqResize);
+  visualViewport.addEventListener('scroll',reqResize);
+}
 if(document.fonts)document.fonts.load('20px "Luckiest Guy"');
 initPetals();
 toMenu();
