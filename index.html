@@ -20,9 +20,12 @@ button{touch-action:manipulation;font-family:inherit}
 #hud{position:fixed;top:calc(10px + env(safe-area-inset-top));
   left:calc(14px + env(safe-area-inset-left));right:calc(14px + env(safe-area-inset-right));
   display:flex;justify-content:space-between;align-items:flex-start;z-index:5;pointer-events:none}
+#scoreRow{display:flex;align-items:center;gap:8px}
 #scoreVal{font-family:'Luckiest Guy';font-size:clamp(34px,6vw,52px);color:#fff;line-height:.9;
   text-shadow:0 3px 0 rgba(0,0,0,.35),0 0 18px rgba(255,180,60,.25);transition:color .3s;font-variant-numeric:tabular-nums}
 body.fever #scoreVal{color:#ffd257}
+#x2{background:#ff3d2e;color:#fff;border-radius:8px;padding:1px 9px;font-weight:900;font-size:15px;
+  box-shadow:0 2px 8px rgba(255,60,30,.5);animation:flick .25s infinite alternate}
 #scoreBox small{font-weight:900;font-size:11px;letter-spacing:4px;color:#ffcf8e;text-shadow:0 1px 2px rgba(0,0,0,.5)}
 #feverWrap{width:135px;height:9px;border-radius:99px;background:rgba(0,0,0,.45);
   border:1px solid rgba(255,200,140,.3);margin-top:7px;overflow:hidden}
@@ -45,6 +48,16 @@ body.fever #feverFill{animation:flick .25s infinite alternate}
 .iconBtn.off{opacity:.4;filter:grayscale(1)}
 #soundBtns{position:fixed;right:calc(14px + env(safe-area-inset-right));
   bottom:calc(14px + env(safe-area-inset-bottom));display:flex;gap:8px;z-index:6}
+#toasts{position:fixed;top:calc(8px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);
+  z-index:20;display:flex;flex-direction:column;gap:8px;pointer-events:none;align-items:center}
+.toast{background:linear-gradient(180deg,rgba(52,29,12,.96),rgba(30,15,6,.96));border:2px solid #ffd257;
+  border-radius:14px;padding:8px 18px;color:#ffe3b3;font-weight:800;font-size:13px;display:flex;gap:10px;
+  align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:88vw;
+  animation:toastIn .45s cubic-bezier(.2,1.6,.4,1),toastOut .4s ease 2.3s forwards}
+.toast b{color:#ffd257}
+.toast small{color:#c9a97e;font-weight:700}
+@keyframes toastIn{from{opacity:0;transform:translateY(-30px) scale(.8)}}
+@keyframes toastOut{to{opacity:0;transform:translateY(-16px)}}
 .overlay{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:10px;
   background:radial-gradient(ellipse at center,rgba(0,0,0,.15),rgba(0,0,0,.6));animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0}}
@@ -55,10 +68,13 @@ body.fever #feverFill{animation:flick .25s infinite alternate}
 .panel::before{content:"忍";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-size:min(300px,60vw);color:rgba(255,70,50,.09);pointer-events:none;line-height:1}
 .panel>*{position:relative}
-.logo{font-family:'Luckiest Guy';line-height:.92;margin-bottom:6px;animation:beatBob .952s ease-in-out infinite}
-@keyframes beatBob{0%,100%{transform:rotate(-2deg) scale(1)}50%{transform:rotate(-2deg) scale(1.035)}}
-.logo .l1{display:block;font-size:clamp(36px,8vw,64px);color:#ffe3b3;text-shadow:0 4px 0 #7a3b12,0 10px 24px rgba(0,0,0,.5)}
-.logo .l2{display:block;font-size:clamp(42px,10vw,78px);color:#ff4b3e;text-shadow:0 5px 0 #7d1010,0 12px 28px rgba(0,0,0,.55)}
+.logo{font-family:'Luckiest Guy';line-height:.92;margin-bottom:6px}
+.logo .l1{display:block;font-size:clamp(36px,8vw,64px);color:#ffe3b3;
+  text-shadow:0 4px 0 #7a3b12,0 10px 24px rgba(0,0,0,.5);animation:l1s 5s ease-in-out infinite}
+.logo .l2{display:block;font-size:clamp(42px,10vw,78px);color:#ff4b3e;
+  text-shadow:0 5px 0 #7d1010,0 12px 28px rgba(0,0,0,.55);animation:l2s 5s ease-in-out infinite}
+@keyframes l1s{0%,82%,100%{transform:translateX(0) rotate(-2deg)}87%{transform:translateX(-8px) rotate(-3deg)}93%{transform:translateX(3px) rotate(-1.5deg)}}
+@keyframes l2s{0%,82%,100%{transform:translateX(0) rotate(-2deg)}87%{transform:translateX(8px) rotate(-1deg)}93%{transform:translateX(-3px) rotate(-2.5deg)}}
 .sub{font-weight:900;font-size:12px;letter-spacing:6px;color:#ff9d5c;margin:-2px 0 8px}
 .tag{color:#e8c79a;font-weight:700;margin:10px 0 16px;font-size:15px;letter-spacing:.4px}
 .btn{font-family:'Luckiest Guy';font-size:clamp(18px,3.6vw,27px);letter-spacing:1px;color:#fff;padding:13px 30px 11px;
@@ -96,15 +112,22 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(32px,6.5vw,50px);color:#ff4b3
 .scoreList div.me{background:rgba(255,210,87,.18);color:#ffd257}
 .scoreList .pl{color:#a8896a;width:20px}
 .scoreList .noScores{text-align:center;color:#7d6248;justify-content:center}
+#achRow{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:8px;max-width:420px;margin-left:auto;margin-right:auto}
+.ach{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;
+  background:rgba(255,210,87,.14);border:1px solid rgba(255,210,87,.4);transition:transform .1s}
+.ach:hover{transform:scale(1.15)}
+.ach.locked{filter:grayscale(1);opacity:.35;background:rgba(0,0,0,.3);border-color:rgba(255,255,255,.1)}
 @media(max-width:520px){.panel{padding:26px 16px}.hint{font-size:11px;padding:6px 8px}}
 </style>
 </head>
 <body>
 <canvas id="game"></canvas>
+<div id="toasts"></div>
 
 <div id="hud" class="hidden">
   <div id="scoreBox">
-    <div id="scoreVal">0</div><small>PUNKTE</small>
+    <div id="scoreRow"><div id="scoreVal">0</div><span id="x2" class="hidden">×2</span></div>
+    <small>PUNKTE</small>
     <div id="feverWrap" title="Fieber-Leiste"><div id="feverFill"></div></div>
     <div id="pwRow">
       <span id="pwD" class="hidden">⚔️</span>
@@ -136,11 +159,13 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(32px,6.5vw,50px);color:#ff4b3
       <span class="hint">🍉 Wischen = schneiden</span>
       <span class="hint">💣 Bomben sind tabu</span>
       <span class="hint">🔥 Leiste voll = FIEBER</span>
-      <span class="hint">🧘 Zen: keine Bomben, 60 Sekunden</span>
+      <span class="hint">🐲 Riesenfrucht = Bonus</span>
     </div>
     <div class="specials">⭐ Gold +50 · 🧊 Zeitlupe · ⚔️ Doppelklinge · 🧲 Magnet · 🎯 Mitte = Bonus</div>
     <div class="best" id="menuBest"></div>
     <div class="scoreList" id="menuScores"></div>
+    <div class="keys" id="achCount" style="margin-top:10px;color:#ffd257"></div>
+    <div id="achRow"></div>
     <div class="keys">Tasten: P = Pause · M = Effekte · N = Musik</div>
   </div>
 </div>
@@ -183,8 +208,7 @@ const clamp=(v,a,b)=>v<a?a:v>b?b:v;
 const easeOutBack=t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);};
 const vib=p=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
 let W=0,H=0,DPR=1,GRAV=1000,bgC=null,splatC=null,sctx=null;
-let LANT=[],cam={z:1,fx:0,fy:0};
-/* Adaptive Qualität */
+let LANT=[],cam={z:1,fx:0,fy:0},camTX=0,camTY=0;
 const baseDPR=Math.min(window.devicePixelRatio||1,2);
 let qLvl=0,PARTQ=1,perfEMA=16,lastQ=0;
 const glowWarm=(()=>{const c=document.createElement('canvas');c.width=c.height=128;
@@ -192,6 +216,44 @@ const glowWarm=(()=>{const c=document.createElement('canvas');c.width=c.height=1
   r.addColorStop(0,'rgba(255,175,85,1)');r.addColorStop(.5,'rgba(255,150,60,.35)');r.addColorStop(1,'rgba(255,140,50,0)');
   g.fillStyle=r;g.fillRect(0,0,128,128);return c;})();
 let gvMiss,gvFever,gvFrenzy,gvZen;
+
+/* ================= ERFOLGE ================= */
+const ACH=[
+  ['first','ERSTER SCHNITT','🍉','Schneide deine erste Frucht'],
+  ['combo5','COMBO-KÜNSTLER','⚡','Erreiche eine 5er-Combo'],
+  ['combo10','KLINGENWIRBEL','🌪️','Erreiche eine 10er-Combo'],
+  ['fever','FIEBER!','🔥','Aktiviere den Fieber-Modus'],
+  ['gold','GLÜCKSRITTER','⭐','Schneide eine goldene Frucht'],
+  ['boss','RIESENTÖTER','🐲','Besiege die Riesenfrucht'],
+  ['score500','AUFSTEIGER','📈','Erreiche 500 Punkte'],
+  ['score1500','LEGENDE','👑','Erreiche 1500 Punkte'],
+  ['zen300','ZEN-MEISTER','🧘','Erreiche 300 Punkte im Zen-Modus'],
+  ['slices200','FLEISSIGE KLINGE','🗡️','Schneide 200 Früchte insgesamt']
+];
+let ach=new Set(JSON.parse(localStorage.getItem('fnAch')||'[]'));
+let toastQ=[],toastBusy=false,totalSlices=+(localStorage.getItem('fnTotal')||0);
+function unlock(id){
+  if(ach.has(id))return;
+  const a=ACH.find(x=>x[0]===id);
+  if(!a)return;
+  ach.add(id);localStorage.setItem('fnAch',JSON.stringify([...ach]));
+  toastQ.push(a);pumpToast();sfx.record();vib([15,40,15]);
+}
+function pumpToast(){
+  if(toastBusy||!toastQ.length)return;
+  toastBusy=true;
+  const[,name,icon,desc]=toastQ.shift();
+  const d=document.createElement('div');
+  d.className='toast';
+  d.innerHTML=`<span style="font-size:24px">${icon}</span><span>🏆 <b>${name}</b><br><small>${desc}</small></span>`;
+  $('toasts').appendChild(d);
+  setTimeout(()=>{d.remove();toastBusy=false;pumpToast();},2800);
+}
+function scoreAch(){
+  if(score>=500)unlock('score500');
+  if(score>=1500)unlock('score1500');
+  if(mode==='zen'&&score>=300)unlock('zen300');
+}
 
 /* ================= AUDIO ================= */
 let AC=null,master=null,sfxGain=null,noiseB=null;
@@ -226,6 +288,7 @@ const sfx={
   whoosh(v){noise(.1,Math.min(.22,v),2600,700,'bandpass',1.2);},
   throw(){noise(.3,.09,300,1400,'bandpass',.8);},
   bomb(){tone(160,32,.7,.7,'sawtooth');noise(.6,.8,3000,120,'lowpass');noise(.25,.5,8000,1000,'highpass');},
+  bossHit(){tone(200,80,.12,.3,'square');noise(.08,.3,1200,400,'bandpass');},
   miss(){tone(130,60,.25,.25,'square');},
   gold(){[880,1108.7,1318.5,1760].forEach((f,i)=>tone(f,f,.14,.14,'triangle',i*.06));},
   ice(){tone(1800,300,.5,.2,'sine');noise(.4,.15,6000,800,'bandpass',3);},
@@ -330,7 +393,7 @@ function mGong(){
 function calcIntensity(){
   if(state!=='play')return 0;
   const now=performance.now();
-  if(feverUntil>now||frenzyUntil>now)return 3;
+  if(feverUntil>now||frenzyUntil>now||boss)return 3;
   if(score>=150||maxCombo>=5)return 2;
   return 1;
 }
@@ -360,7 +423,7 @@ function getBeat(){
   return (performance.now()-beatEpoch)/(SPB*1000);
 }
 
-/* ================= FRÜCHTE ================= */
+/* ================= FRÜCHTE & SPRITES ================= */
 const TYPES=['melon','orange','apple','lemon','kiwi','plum','peach','dragon'];
 const FR={
   melon :{r:46,juice:'#ff4757',skin:'#158a3c',g0:'#62c877',g1:'#1f9c44',g2:'#0b5a25',flesh:'#ff5252',fleshL:'#ffc2c2'},
@@ -376,9 +439,11 @@ const FR={
   dblade:{r:30,juice:'#aed581',skin:'#2e7d32',g0:'#9ccc65',g1:'#43a047',g2:'#1b5e20',flesh:'#c5e1a5',fleshL:'#e8f5c8'},
   magnet:{r:30,juice:'#64b5f6',skin:'#1565c0',g0:'#90caf9',g1:'#1e88e5',g2:'#0d47a1',flesh:'#bbdefb',fleshL:'#e3f2fd'}
 };
-
-/* ---- Sprite-Baking (einmal zeichnen, dann nur noch drawImage) ---- */
 const sprCache=new Map();
+function hl(g,x,y,r){
+  g.fillStyle='rgba(255,255,255,.35)';
+  g.beginPath();g.ellipse(x,y,r,r*.55,-.6,0,TAU);g.fill();
+}
 function fruitArt(g,type,r,vr){
   const D=FR[type];
   const pr=n=>{const s=Math.sin(n*127.1+(vr+1)*371.7)*43758.5453;return s-Math.floor(s);};
@@ -475,10 +540,6 @@ function fruitArt(g,type,r,vr){
       break;
   }
   hl(g,-r*.35,-r*.4,r*.45);
-}
-function hl(g,x,y,r){
-  g.fillStyle='rgba(255,255,255,.35)';
-  g.beginPath();g.ellipse(x,y,r,r*.55,-.6,0,TAU);g.fill();
 }
 function bombArt(g,r){
   const gl=g.createRadialGradient(0,0,r*.4,0,0,r*2);
@@ -579,11 +640,12 @@ let fruits=[],halves=[],parts=[],pops=[],rings=[],pending=[],trail=[],petals=[],
 let score=0,displayScore=0,lastShownScore=-1,best=+(localStorage.getItem('fnBest')||0),lives=3;
 let scores=JSON.parse(localStorage.getItem('fnTop')||'[]');
 let state='menu',mode='classic',lastMode='classic',startTime=0,reason='',lastRank='';
-let zenEnd=0,lastZenSec=99;
+let zenEnd=0,lastZenSec=99,cdLeft=0;
 let shake=0,flash=0,flashColor='255,235,210',missFlash=0,beatPulse=0,lastBeatInt=-99,hitStopUntil=0;
 let comboCount=0,lastSlice=0,lastWhoosh=0,charge=0,feverUntil=0,iceUntil=0,timeScale=1,lastFT=18000;
 let doubleUntil=0,attractUntil=0,lastPtr=null;
 let frenzyAt=0,frenzyQueued=false,frenzyUntil=0,nextMenuSpawn=0,dieUntil=0;
+let boss=null,nextBossAt=0;
 let statSliced=0,maxCombo=0,beatBestToast=false,tutPop=null;
 const active=new Map();
 
@@ -597,9 +659,9 @@ function resize(){
   GRAV=H*1.15;
   if(!cam.fx){cam.fx=W/2;cam.fy=H/2;}
   cam.fx=clamp(cam.fx,0,W);cam.fy=clamp(cam.fy,0,H);
+  camTX=W/2;camTY=H/2;
   LANT=[[W*.1,H*.17],[W*.9,H*.17]];
-  buildBg();
-  buildVign();
+  buildBg();buildVign();
   splatC=document.createElement('canvas');splatC.width=cv.width;splatC.height=cv.height;
   sctx=splatC.getContext('2d');sctx.setTransform(DPR,0,0,DPR,0,0);
 }
@@ -664,7 +726,7 @@ function initPetals(){
 function punch(z,x,y){cam.z=Math.max(cam.z,z);cam.fx=x;cam.fy=y;}
 function camInv(x,y){return{x:(x-W/2)/cam.z+cam.fx,y:(y-H/2)/cam.z+cam.fy};}
 
-/* ================= BEAT-SPAWNING ================= */
+/* ================= SPAWNING ================= */
 function spawnFruit(o={}){
   const isBomb=!!o.bomb;
   const type=isBomb?'bomb':(o.type||pick(TYPES));
@@ -713,14 +775,26 @@ function startFrenzy(){
   const n=6+Math.floor(rnd(0,3));
   for(let i=0;i<n;i++)pending.push({t:now+i*SPB*500,type:pick(TYPES)});
 }
+function spawnBoss(){
+  const r=Math.min(W,H)*.16;
+  const dir=Math.random()<.5?1:-1;
+  boss={r,dir,x:dir>0?-r-20:W+r+20,y:H*.72,vx:dir*(W+r*2+40)/6,vy:-GRAV*.32*3,hp:8,hpMax:8,hitCd:0,born:performance.now()};
+  bigPop('GIGANTISCHE FRUCHT!','#ff8a65');
+  sfx.fever();punch(1.08,W/2,H*.5);
+}
 function onBeat(b){
   beatPulse=1;
   rings.push({x:W/2,y:H*.42,t:0,ttl:.55,col:'rgba(255,120,80,.35)',lw:2,maxR:Math.min(W,H)*.18});
   petals.forEach(p=>p.vy-=6);
-  if(state==='play'){
-    onBeatSpawn(b);
-    if(mode==='classic'&&lives===1){tone(70,40,.15,.3,'sine');tone(60,35,.18,.22,'sine',.18);}
+  if(state!=='play')return;
+  if(cdLeft>0){
+    cdLeft--;
+    if(cdLeft>0){bigPop(String(cdLeft),'#ffe3b3');if(AC)mTaiko(AC.currentTime,.6);}
+    else{bigPop('LOS!','#8bd450');sfx.start();if(mode==='zen')zenEnd=performance.now()+60000;}
+    return;
   }
+  onBeatSpawn(b);
+  if(mode==='classic'&&lives===1){tone(70,40,.15,.3,'sine');tone(60,35,.18,.22,'sine',.18);}
 }
 
 /* ================= SCHNEIDEN ================= */
@@ -745,6 +819,7 @@ function trySlice(ax,ay,bx,by,now){
     segs.push([ax+nx,ay+ny,bx+nx,by+ny],[ax-nx,ay-ny,bx-nx,by-ny]);
   }
   for(const s of segs){
+    if(boss&&segHit(s[0],s[1],s[2],s[3],boss.x,boss.y,boss.r*.95))bossHit(s,now);
     for(let i=fruits.length-1;i>=0;i--){
       const f=fruits[i];
       if(segHit(s[0],s[1],s[2],s[3],f.x,f.y,f.r)){
@@ -754,6 +829,45 @@ function trySlice(ax,ay,bx,by,now){
     }
   }
 }
+function bossHit(s,now){
+  if(!boss||now<boss.hitCd)return;
+  const b=boss;
+  b.hitCd=now+170;
+  const dx=s[2]-s[0],dy=s[3]-s[1],L=dx*dx+dy*dy||1;
+  const t=clamp(((b.x-s[0])*dx+(b.y-s[1])*dy)/L,0,1);
+  const hx=s[0]+dx*t,hy=s[1]+dy*t;
+  const ang=Math.atan2(dy,dx);
+  b.hp--;
+  if(now-lastSlice<500)comboCount++;else comboCount=1;
+  lastSlice=now;maxCombo=Math.max(maxCombo,comboCount);
+  if(comboCount>=5)unlock('combo5');
+  if(comboCount>=10)unlock('combo10');
+  charge=Math.min(1,charge+.09);
+  if(charge>=1&&feverUntil<=now)startFever();
+  score+=5;scoreAch();
+  pops.push(mkPop(hx,hy-20,'+5','#ffd257',20));
+  slashes.push({x:hx,y:hy,ang,len:b.r*1.2,t:0,ttl:.16});
+  juiceBurst(hx,hy,'#ff4757',40,1);
+  shake=Math.max(shake,5);vib(12);
+  sfx.bossHit();sliceNote(2+comboCount);
+  b.vx+=Math.cos(ang)*30;b.vy-=40;
+  if(b.hp<=0)bossDefeated(now);
+}
+function bossDefeated(now){
+  const b=boss;boss=null;
+  hitStopUntil=now+120;punch(1.22,b.x,b.y);vib([30,60,90]);
+  juiceBurst(b.x,b.y,'#ff4757',b.r,3);
+  juiceBurst(b.x,b.y,'#158a3c',b.r*.8,1.2);
+  paintSplat(b.x,b.y,'#ff4757',b.r);
+  paintSplat(b.x,b.y,'#158a3c',b.r*.7);
+  const bonus=100*(feverUntil>now?2:1);
+  score+=bonus;scoreAch();
+  bigPop('BESIEGT! +'+bonus,'#ffd257');
+  rings.push({x:b.x,y:b.y,t:0,ttl:.7,col:'rgba(255,120,80,.7)',lw:8,maxR:Math.min(W,H)*.5});
+  for(let i=0;i<4;i++)pending.push({t:now+i*90,type:pick(TYPES),x:clamp(b.x+rnd(-60,60),W*.1,W*.9)});
+  nextBossAt=now+rnd(45000,60000);
+  unlock('boss');
+}
 function startFever(){
   const now=performance.now();
   feverUntil=now+6000;
@@ -761,6 +875,7 @@ function startFever(){
   sfx.fever();bigPop('FIEBER!','#ff5030');
   flash=.5;flashColor='255,200,90';
   shake=Math.max(shake,8);punch(1.1,W/2,H*.4);vib(30);
+  unlock('fever');
 }
 function clearTutorial(){
   if(tutPop){const i=pops.indexOf(tutPop);if(i>=0)pops.splice(i,1);tutPop=null;localStorage.setItem('fnTutDone','1');}
@@ -777,14 +892,18 @@ function doSlice(f,ang,now,ambient,bull){
   const D=FR[f.type];
   if(!ambient){
     clearTutorial();
-    statSliced++;
+    statSliced++;totalSlices++;
+    if(totalSlices>=200)unlock('slices200');
+    unlock('first');
     if(now-lastSlice<500)comboCount++;else comboCount=1;
     lastSlice=now;maxCombo=Math.max(maxCombo,comboCount);
+    if(comboCount>=5)unlock('combo5');
+    if(comboCount>=10)unlock('combo10');
     const fever=feverUntil>now;
     let val=f.type==='gold'?50:10;
     if(bull)val+=5;
     if(fever)val*=2;
-    score+=val;
+    score+=val;scoreAch();
     if(!beatBestToast&&best>0&&score>best){beatBestToast=true;bigPop('NEUER REKORD!','#ffd257');sfx.record();}
     charge=Math.min(1,charge+(f.type==='gold'?.35:.13));
     if(charge>=1&&feverUntil<=now)startFever();
@@ -799,7 +918,7 @@ function doSlice(f,ang,now,ambient,bull){
     if(comboCount===5)petalBurst(f.x,f.y);
     sliceNote(1+comboCount+(fever?2:0));
     vib(8);
-    if(f.type==='gold'){sfx.gold();juiceBurst(f.x,f.y,'#ffe082',f.r,1.4);pops.push(mkPop(f.x,f.y-f.r+30,'⭐ GOLD!','#ffd257',18));}
+    if(f.type==='gold'){sfx.gold();unlock('gold');juiceBurst(f.x,f.y,'#ffe082',f.r,1.4);pops.push(mkPop(f.x,f.y-f.r+30,'⭐ GOLD!','#ffd257',18));}
     if(f.type==='ice'){
       sfx.ice();iceUntil=now+2500;
       bigPop('ZEITLUPE!','#8fe3ff');
@@ -905,8 +1024,8 @@ function update(dt,now){
     if(tgt!==lastFT){lastFT=tgt;musicFilter.frequency.setTargetAtTime(tgt,AC.currentTime,.08);}
   }
   cam.z+=(1-cam.z)*Math.min(1,dt*3);
-  cam.fx+=(W/2-cam.fx)*Math.min(1,dt*3);
-  cam.fy+=(H/2-cam.fy)*Math.min(1,dt*3);
+  cam.fx+=(camTX-cam.fx)*Math.min(1,dt*3);
+  cam.fy+=(camTY-cam.fy)*Math.min(1,dt*3);
   const hw=W/(2*cam.z),hh=H/(2*cam.z);
   cam.fx=clamp(cam.fx,hw,W-hw);cam.fy=clamp(cam.fy,hh,H-hh);
   trail=trail.filter(p=>now-p.t<150);
@@ -941,7 +1060,13 @@ function update(dt,now){
         if(d<400&&d>1){f.vx+=dx/d*1400*dtW;f.vy+=dy/d*1400*dtW;}
       }
     }
-    if(mode==='zen'){
+    if(!boss&&now>nextBossAt&&cdLeft===0){spawnBoss();nextBossAt=Infinity;}
+    if(boss){
+      boss.vy+=GRAV*.32*dtW;boss.x+=boss.vx*dtW;boss.y+=boss.vy*dtW;
+      const gone=(boss.dir>0&&boss.x>W+boss.r+40)||(boss.dir<0&&boss.x<-boss.r-40)||boss.y>H+boss.r*2;
+      if(gone){boss=null;nextBossAt=now+rnd(40000,55000);}
+    }
+    if(mode==='zen'&&cdLeft===0){
       const rem=zenEnd-now;
       if(rem<=0){reason='zen';state='dying';dieUntil=now+500;}
       else{
@@ -962,9 +1087,11 @@ function update(dt,now){
   for(let i=pending.length-1;i>=0;i--){
     if(now>=pending[i].t){const p=pending[i];pending.splice(i,1);spawnFruit(p);}
   }
+  let sx=0,sy=0,sn=0;
   for(let i=fruits.length-1;i>=0;i--){
     const f=fruits[i];
     f.vy+=GRAV*dtW;f.x+=f.vx*dtW;f.y+=f.vy*dtW;f.rot+=f.vrot*dtW;
+    if(sn<8){sx+=f.x;sy+=f.y;sn++;}
     if(f.isBomb&&Math.random()<.6)bombSpark(f);
     if(f.type==='gold'&&Math.random()<dtW*9)
       parts.push({x:f.x+rnd(-.7,.7)*f.r,y:f.y+rnd(-.7,.7)*f.r,vx:rnd(-15,15),vy:rnd(-45,-10),
@@ -975,6 +1102,9 @@ function update(dt,now){
     if(state==='menu'&&!f.isBomb&&f.vy>0){fruits.splice(i,1);doSlice(f,rnd(TAU),now,true,false);continue;}
     if(f.y>H+f.r*2&&f.vy>0){fruits.splice(i,1);if(state==='play'&&!f.isBomb)missFruit(f);}
   }
+  if(boss&&sn<8){sx+=boss.x;sy+=boss.y;sn++;}
+  if(sn){camTX=W/2+(sx/sn-W/2)*.22;camTY=H/2+(sy/sn-H/2)*.22;}
+  else{camTX=W/2;camTY=H/2;}
   for(let i=halves.length-1;i>=0;i--){
     const h=halves[i];
     h.vy+=GRAV*dtW;h.x+=h.vx*dtW;h.y+=h.vy*dtW;h.rot+=h.vrot*dtW;
@@ -1001,6 +1131,7 @@ function update(dt,now){
   for(let i=rings.length-1;i>=0;i--){rings[i].t+=dt;if(rings[i].t>rings[i].ttl)rings.splice(i,1);}
   if(state==='dying'&&now>=dieUntil)gameOver();
   $('feverFill').style.width=(charge*100)+'%';
+  $('x2').classList.toggle('hidden',!(feverUntil>now));
   if(doubleUntil>now){$('pwD').classList.remove('hidden');$('pwD').textContent='⚔️ '+Math.ceil((doubleUntil-now)/1000)+'s';}
   else $('pwD').classList.add('hidden');
   if(attractUntil>now){$('pwM').classList.remove('hidden');$('pwM').textContent='🧲 '+Math.ceil((attractUntil-now)/1000)+'s';}
@@ -1036,6 +1167,32 @@ function drawBomb(f,now){
   const tw=.6+.4*Math.sin(now*.03);
   ctx.fillStyle=`rgba(255,210,90,${tw})`;
   ctx.beginPath();ctx.arc(f.r*.3,-f.r*1.15,f.r*.14+2,0,TAU);ctx.fill();
+  ctx.restore();
+}
+function drawBoss(b,now){
+  const sp=getSprite('melon',b.r,1);
+  ctx.save();ctx.translate(b.x,b.y);
+  const age=(now-b.born)/300;
+  const pop=age<1?Math.max(.3,.25+.75*easeOutBack(clamp(age,0,1))):1;
+  ctx.scale(pop,pop);
+  ctx.rotate(Math.sin(now*.004)*.06);
+  ctx.drawImage(sp.c,-sp.P,-sp.P,sp.P*2,sp.P*2);
+  const lx=lastPtr?clamp((lastPtr.x-b.x)*.03,-b.r*.05,b.r*.05):0;
+  const ly=lastPtr?clamp((lastPtr.y-b.y)*.03,-b.r*.04,b.r*.04):0;
+  for(const s of[-1,1]){
+    ctx.fillStyle='#fff';
+    ctx.beginPath();ctx.ellipse(s*b.r*.32,-b.r*.3,b.r*.17,b.r*.2,0,0,TAU);ctx.fill();
+    ctx.fillStyle='#1c1c1c';
+    ctx.beginPath();ctx.arc(s*b.r*.32+lx,-b.r*.3+ly,b.r*.08,0,TAU);ctx.fill();
+    ctx.strokeStyle='#0b3d1a';ctx.lineWidth=b.r*.06;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(s*b.r*.5,-b.r*.56);ctx.lineTo(s*b.r*.14,-b.r*.42);ctx.stroke();
+  }
+  const w=b.r*1.5,hp=b.hp/b.hpMax;
+  ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillRect(-w/2,-b.r*1.4,w,b.r*.14);
+  ctx.fillStyle=hp>.5?'#8bd450':hp>.25?'#ffd257':'#ff5030';
+  ctx.fillRect(-w/2,-b.r*1.4,w*Math.max(0,hp),b.r*.14);
+  ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=1.5;
+  ctx.strokeRect(-w/2,-b.r*1.4,w,b.r*.14);
   ctx.restore();
 }
 function drawHalf(h){
@@ -1143,8 +1300,10 @@ function render(now){
   ctx.restore();
   halves.forEach(h=>drawShadow(h.x,h.y,h.r*.9));
   fruits.forEach(f=>drawShadow(f.x,f.y,f.r));
+  if(boss)drawShadow(boss.x,boss.y,boss.r);
   halves.forEach(drawHalf);
   fruits.forEach(f=>f.isBomb?drawBomb(f,now):drawFruit(f,now));
+  if(boss)drawBoss(boss,now);
   parts.forEach(p=>{
     const k=1-p.t/p.life;
     ctx.globalAlpha=k;ctx.fillStyle=p.col;
@@ -1201,6 +1360,9 @@ cv.addEventListener('pointermove',e=>{
   if(state==='play'||state==='menu')trySlice(lp.x,lp.y,w.x,w.y,now);
   const spd=Math.hypot(w.x-lp.x,w.y-lp.y);
   if(spd>26&&now-lastWhoosh>90){lastWhoosh=now;sfx.whoosh(spd/300);}
+  if(spd>40&&Math.random()<.6)
+    parts.push({x:w.x,y:w.y,vx:rnd(-30,30),vy:rnd(-30,30),r:rnd(1,2.2),
+      col:'rgba(255,255,255,.9)',life:.22,t:0,g:.2});
   trail.push({x:w.x,y:w.y,t:now});
   if(trail.length>40)trail.shift();
   active.set(e.pointerId,w);
@@ -1223,7 +1385,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='p
 addEventListener('blur',()=>{if(state==='play')pauseGame();});
 window.visualViewport&&window.visualViewport.addEventListener('resize',resize);
 
-/* ================= UI & HIGHSCORES ================= */
+/* ================= UI ================= */
 function renderLives(){
   const box=$('lives');box.innerHTML='';
   for(let i=0;i<3;i++){
@@ -1233,7 +1395,7 @@ function renderLives(){
 }
 function clearWorld(){
   fruits.length=0;halves.length=0;parts.length=0;pops.length=0;rings.length=0;
-  pending.length=0;trail.length=0;slashes.length=0;
+  pending.length=0;trail.length=0;slashes.length=0;boss=null;
   if(sctx)sctx.clearRect(0,0,W,H);
 }
 function addScore(s,m){
@@ -1248,6 +1410,11 @@ function scoresHTML(hi){
   return '<h3>TOP 5</h3>'+scores.map((e,i)=>
     `<div class="${i===hi?'me':''}"><span class="pl">${i+1}.</span><span>${e.s} P.</span><span>${e.d}${e.mode==='zen'?' 🧘':' ⚔️'}</span></div>`).join('');
 }
+function renderAch(){
+  $('achCount').textContent=`🏆 ${ach.size}/${ACH.length} Erfolge`;
+  $('achRow').innerHTML=ACH.map(([id,name,icon,desc])=>
+    `<span class="ach${ach.has(id)?'':' locked'}" title="${name} – ${desc}">${ach.has(id)?icon:'🔒'}</span>`).join('');
+}
 function startGame(m){
   ensureAudio();initMusic();
   clearWorld();
@@ -1257,6 +1424,7 @@ function startGame(m){
   feverUntil=0;iceUntil=0;timeScale=1;frenzyQueued=false;frenzyUntil=0;
   doubleUntil=0;attractUntil=0;lastPtr=null;
   frenzyAt=0;beatBestToast=false;reason='';tutPop=null;lastZenSec=99;
+  cdLeft=3;nextBossAt=0;
   document.body.classList.remove('fever');
   renderLives();
   $('lives').classList.toggle('hidden',m==='zen');
@@ -1266,11 +1434,10 @@ function startGame(m){
   zenEnd=m==='zen'?startTime+60000:0;
   if(m==='zen')$('zenTimer').textContent='1:00';
   frenzyAt=startTime+rnd(18000,26000);
+  nextBossAt=startTime+rnd(28000,38000);
   beatEpoch=startTime;lastBeatInt=Math.floor(getBeat());
-  cam.z=1;cam.fx=W/2;cam.fy=H/2;
+  cam.z=1;cam.fx=W/2;cam.fy=H/2;camTX=W/2;camTY=H/2;
   $('menu').classList.add('hidden');$('over').classList.add('hidden');$('hud').classList.remove('hidden');
-  sfx.start();
-  bigPop(m==='zen'?'ZEN – 60 SEKUNDEN!':'LOS!','#8bd450');
   if(!localStorage.getItem('fnTutDone')){
     tutPop={x:W/2,y:H*.55,txt:'↔ WISCHE ÜBER DIE FRÜCHTE!',col:'#fff',size:Math.min(30,W*.055),big:true,t:0,ttl:3.5,vy:-8};
     pops.push(tutPop);
@@ -1287,6 +1454,7 @@ function gameOver(){
   state='over';document.body.classList.remove('playing','fever');
   $('hud').classList.add('hidden');
   displayScore=score;lastShownScore=score;
+  localStorage.setItem('fnTotal',totalSlices);
   let nb=false;
   if(score>best){best=score;localStorage.setItem('fnBest',best);nb=true;}
   const hi=addScore(score,mode);
@@ -1316,6 +1484,7 @@ function toMenu(){
   $('menu').classList.remove('hidden');
   $('menuBest').textContent=best>0?'BESTLEISTUNG: '+best:'';
   $('menuScores').innerHTML=scoresHTML(-1);
+  renderAch();
   nextMenuSpawn=performance.now()+300;
   beatEpoch=performance.now();lastBeatInt=Math.floor(getBeat());
 }
