@@ -16,7 +16,7 @@ body{font-family:'Nunito',system-ui,sans-serif;user-select:none;-webkit-user-sel
 #game{position:fixed;left:0;top:0;touch-action:none;display:block}
 body.playing #game{cursor:none}
 .hidden{display:none!important}
-button{touch-action:manipulation;font-family:inherit}
+button{touch-action:manipulation;font-family:inherit;cursor:pointer}
 body.touch .keys{display:none}
 #hud{position:fixed;top:calc(10px + env(safe-area-inset-top));
   left:calc(14px + env(safe-area-inset-left));right:calc(14px + env(safe-area-inset-right));
@@ -28,15 +28,15 @@ body.duel #scoreVal{color:#7ec3ff}
 body.fever #scoreVal{color:#ffd257}
 #x2{background:#ff3d2e;color:#fff;border-radius:8px;padding:1px 9px;font-weight:900;font-size:15px;
   box-shadow:0 2px 8px rgba(255,60,30,.5);animation:flick .25s infinite alternate}
-#scoreBox small,#p2Box small{font-weight:900;font-size:11px;letter-spacing:4px;color:#ffcf8e;text-shadow:0 1px 2px rgba(0,0,0,.5)}
-#feverWrap{width:135px;height:9px;border-radius:99px;background:rgba(0,0,0,.45);
+#scoreBox small,#p2Box small{font-weight:900;font-size:12px;letter-spacing:4px;color:#ffcf8e;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+#feverWrap{width:135px;height:10px;border-radius:99px;background:rgba(0,0,0,.45);
   border:1px solid rgba(255,200,140,.3);margin-top:7px;overflow:hidden}
 #feverFill{height:100%;width:0%;background:linear-gradient(90deg,#ffb02e,#ff3d2e);border-radius:99px;transition:width .12s}
 body.fever #feverFill{animation:flick .25s infinite alternate}
 @keyframes flick{from{filter:brightness(1)}to{filter:brightness(1.7)}}
 #pwRow{display:flex;gap:6px;margin-top:6px}
 #pwRow span{background:rgba(0,0,0,.45);border:1px solid rgba(255,220,170,.3);border-radius:999px;
-  padding:2px 10px;font-size:12px;font-weight:900;color:#ffe3b3}
+  padding:3px 11px;font-size:13px;font-weight:900;color:#ffe3b3}
 #rightHud{display:flex;gap:10px;align-items:center}
 #p2Box{text-align:right}
 #p2Val{font-family:'Luckiest Guy';font-size:clamp(26px,4.5vw,44px);color:#ff8a65;line-height:.9;
@@ -48,8 +48,8 @@ body.fever #feverFill{animation:flick .25s infinite alternate}
   box-shadow:0 3px 8px rgba(0,0,0,.4),inset 0 -3px 6px rgba(0,0,0,.25);transition:all .25s}
 .life.lost{background:#33271f;color:#6b5a4d;transform:scale(.85) rotate(20deg);box-shadow:none}
 #zenTimer{font-family:'Luckiest Guy';font-size:clamp(22px,4.5vw,36px);color:#ffe3b3;text-shadow:0 3px 0 rgba(0,0,0,.35);font-variant-numeric:tabular-nums}
-.iconBtn{pointer-events:auto;width:46px;height:46px;border-radius:50%;border:2px solid rgba(255,220,170,.35);
-  background:rgba(30,16,8,.6);color:#ffe3b3;font-size:19px;cursor:pointer;transition:transform .1s}
+.iconBtn{pointer-events:auto;width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,220,170,.35);
+  background:rgba(30,16,8,.6);color:#ffe3b3;font-size:20px;cursor:pointer;transition:transform .1s}
 .iconBtn:hover{transform:scale(1.12)}
 .iconBtn.off{opacity:.4;filter:grayscale(1)}
 #fsBtn{border-color:rgba(139,212,80,.6);background:rgba(24,40,16,.7)}
@@ -58,14 +58,13 @@ body.fever #feverFill{animation:flick .25s infinite alternate}
 #toasts{position:fixed;top:calc(8px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);
   z-index:20;display:flex;flex-direction:column;gap:8px;pointer-events:none;align-items:center;width:max-content;max-width:92vw}
 .toast{background:linear-gradient(180deg,rgba(52,29,12,.96),rgba(30,15,6,.96));border:2px solid #ffd257;
-  border-radius:14px;padding:8px 16px;color:#ffe3b3;font-weight:800;font-size:13px;display:flex;gap:10px;
+  border-radius:14px;padding:9px 18px;color:#ffe3b3;font-weight:800;font-size:14px;display:flex;gap:10px;
   align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:92vw;
   animation:toastIn .45s cubic-bezier(.2,1.6,.4,1),toastOut .4s ease 2.3s forwards}
-.toast b{color:#ffd257}
-.toast small{color:#c9a97e;font-weight:700}
+.toast b{color:#ffd257;font-size:15px}
+.toast small{color:#c9a97e;font-weight:700;font-size:13px}
 @keyframes toastIn{from{opacity:0;transform:translateY(-30px) scale(.8)}}
 @keyframes toastOut{to{opacity:0;transform:translateY(-16px)}}
-/* Overlays: sicher zentrieren + sauber scrollen (nichts wird oben abgeschnitten) */
 .overlay{position:fixed;z-index:10;display:flex;align-items:flex-start;justify-content:center;
   overflow-y:auto;overscroll-behavior:contain;padding:10px;
   background:radial-gradient(ellipse at center,rgba(0,0,0,.15),rgba(0,0,0,.6));animation:fadeIn .3s ease}
@@ -84,12 +83,12 @@ body.fever #feverFill{animation:flick .25s infinite alternate}
   text-shadow:0 5px 0 #7d1010,0 12px 28px rgba(0,0,0,.55);animation:l2s 5s ease-in-out infinite}
 @keyframes l1s{0%,82%,100%{transform:translateX(0) rotate(-2deg)}87%{transform:translateX(-8px) rotate(-3deg)}93%{transform:translateX(3px) rotate(-1.5deg)}}
 @keyframes l2s{0%,82%,100%{transform:translateX(0) rotate(-2deg)}87%{transform:translateX(8px) rotate(-1deg)}93%{transform:translateX(-3px) rotate(-2.5deg)}}
-.sub{font-weight:900;font-size:12px;letter-spacing:6px;color:#ff9d5c;margin:-2px 0 8px}
-.tag{color:#e8c79a;font-weight:700;margin:10px 0 12px;font-size:15px;letter-spacing:.4px}
-.modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;max-width:460px;margin:4px auto 0}
+.sub{font-weight:900;font-size:13px;letter-spacing:6px;color:#ff9d5c;margin:-2px 0 8px}
+.tag{color:#e8c79a;font-weight:700;margin:10px 0 12px;font-size:16px;letter-spacing:.4px}
+.modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:460px;margin:4px auto 0}
 .modeGrid .btn{margin:0;width:100%}
 #btnShop{grid-column:span 2}
-.btn{font-family:'Luckiest Guy';font-size:clamp(16px,3.4vw,25px);letter-spacing:1px;color:#fff;padding:12px 20px 10px;
+.btn{font-family:'Luckiest Guy';font-size:clamp(17px,4vw,26px);letter-spacing:1px;color:#fff;padding:13px 22px 11px;
   border:0;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,#ff6a4d,#d31f1f);
   border-bottom:6px solid #821010;text-shadow:0 2px 0 rgba(0,0,0,.35);box-shadow:0 12px 26px rgba(0,0,0,.4);
   transition:transform .09s ease,filter .12s;margin:4px}
@@ -100,66 +99,71 @@ body.fever #feverFill{animation:flick .25s infinite alternate}
 .btn.green{background:linear-gradient(180deg,#8bd450,#3e9a37);border-bottom-color:#235c1e}
 .btn.blue{background:linear-gradient(180deg,#5ca8ff,#2465d0);border-bottom-color:#123e86}
 .btn.purple{background:linear-gradient(180deg,#b06ae0,#7a2fb0);border-bottom-color:#4a1270}
-.btn.ghost{background:linear-gradient(180deg,#6b4a2c,#4a2f18);border-bottom-color:#2b1a0c;font-size:clamp(13px,2.6vw,18px);padding:10px 18px 8px}
+.btn.ghost{background:linear-gradient(180deg,#6b4a2c,#4a2f18);border-bottom-color:#2b1a0c;font-size:clamp(14px,3vw,19px);padding:11px 18px 9px}
+.btn.big{width:100%;max-width:360px;font-size:clamp(20px,5vw,30px);padding:15px 20px 13px}
+.btnRow{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.btnRow .btn{flex:1;max-width:176px;margin:0}
 .hints{display:flex;gap:7px;justify-content:center;margin-top:14px;flex-wrap:wrap}
 .hint{background:rgba(255,235,200,.08);border:1px solid rgba(255,220,170,.18);border-radius:12px;
-  padding:6px 10px;color:#f3ddba;font-size:12px;font-weight:700}
-.specials{margin-top:8px;color:#ffcf8e;font-size:11.5px;font-weight:800}
-.best{margin-top:10px;color:#ffd257;font-weight:900;font-size:13px;letter-spacing:.5px;text-shadow:0 2px 4px rgba(0,0,0,.5)}
-.keys{margin-top:8px;color:#a8896a;font-size:12px;font-weight:700}
-h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;text-shadow:0 4px 0 #6e0d0d}
-.finalScore{font-family:'Luckiest Guy';font-size:clamp(44px,10vw,84px);color:#fff;text-shadow:0 5px 0 rgba(0,0,0,.3);line-height:1;font-variant-numeric:tabular-nums}
-.newBest{display:inline-block;background:#ffd257;color:#5a3300;font-weight:900;padding:4px 14px;border-radius:999px;
-  font-size:13px;letter-spacing:1px;margin:8px 0 4px;animation:pulse 1s infinite}
+  padding:7px 11px;color:#f3ddba;font-size:13.5px;font-weight:700}
+.specials{margin-top:9px;color:#ffcf8e;font-size:13px;font-weight:800}
+.best{margin-top:10px;color:#ffd257;font-weight:900;font-size:14px;letter-spacing:.5px;text-shadow:0 2px 4px rgba(0,0,0,.5)}
+.keys{margin-top:8px;color:#a8896a;font-size:13px;font-weight:700}
+h2.head{font-family:'Luckiest Guy';font-size:clamp(30px,6vw,48px);color:#ff4b3e;text-shadow:0 4px 0 #6e0d0d}
+.finalScore{font-family:'Luckiest Guy';font-size:clamp(46px,10vw,84px);color:#fff;text-shadow:0 5px 0 rgba(0,0,0,.3);line-height:1;font-variant-numeric:tabular-nums}
+.newBest{display:inline-block;background:#ffd257;color:#5a3300;font-weight:900;padding:5px 16px;border-radius:999px;
+  font-size:14px;letter-spacing:1px;margin:8px 0 4px;animation:pulse 1s infinite}
 @keyframes pulse{50%{transform:scale(1.08)}}
 #rankBox{display:inline-block;position:relative;margin:6px 0 2px;padding:8px 20px 6px;border-radius:14px;
   background:rgba(200,35,44,.15);border:2px dashed rgba(255,107,90,.5);transform:rotate(-3deg)}
-#rankLetter{font-family:'Luckiest Guy';font-size:clamp(30px,6.5vw,54px);color:#ff6b5a;line-height:.9;text-shadow:0 3px 0 rgba(0,0,0,.35)}
-#rankName{font-weight:900;color:#ffe3b3;font-size:12px;letter-spacing:2px}
-#rankBox small{display:block;font-weight:900;font-size:9px;letter-spacing:3px;color:#ffcf8e}
+#rankLetter{font-family:'Luckiest Guy';font-size:clamp(32px,6.5vw,54px);color:#ff6b5a;line-height:.9;text-shadow:0 3px 0 rgba(0,0,0,.35)}
+#rankName{font-weight:900;color:#ffe3b3;font-size:13px;letter-spacing:2px}
+#rankBox small{display:block;font-weight:900;font-size:10px;letter-spacing:3px;color:#ffcf8e}
 #rankBox.stamp{animation:stamp .5s cubic-bezier(.2,2,.4,1)}
 @keyframes stamp{0%{transform:rotate(-16deg) scale(2.6);opacity:0}100%{transform:rotate(-3deg) scale(1);opacity:1}}
-.scoreList{margin:8px auto 0;max-width:300px;text-align:left}
-.scoreList h3{font-weight:900;font-size:11px;letter-spacing:3px;color:#a8896a;text-align:center;margin-bottom:4px}
-.scoreList div{display:flex;justify-content:space-between;gap:10px;font-weight:800;color:#ffe3b3;font-size:13px;
-  padding:3px 12px;border-radius:8px}
+.scoreList{margin:8px auto 0;max-width:320px;text-align:left}
+.scoreList h3{font-weight:900;font-size:12px;letter-spacing:3px;color:#a8896a;text-align:center;margin-bottom:4px}
+.scoreList div{display:flex;justify-content:space-between;gap:10px;font-weight:800;color:#ffe3b3;font-size:14px;
+  padding:4px 12px;border-radius:8px}
 .scoreList div.me{background:rgba(255,210,87,.18);color:#ffd257}
-.scoreList .pl{color:#a8896a;width:20px}
+.scoreList .pl{color:#a8896a;width:22px}
 .scoreList .noScores{text-align:center;color:#7d6248;justify-content:center}
-#achCount{margin-top:8px;color:#ffd257;font-size:12px;font-weight:900}
+#achCount{margin-top:8px;color:#ffd257;font-size:13px;font-weight:900}
 #achRow{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-top:6px;max-width:420px;margin-left:auto;margin-right:auto}
-.ach{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:16px;
+.ach{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;
   background:rgba(255,210,87,.14);border:1px solid rgba(255,210,87,.4);transition:transform .1s}
 .ach:hover{transform:scale(1.15)}
 .ach.locked{filter:grayscale(1);opacity:.35;background:rgba(0,0,0,.3);border-color:rgba(255,255,255,.1)}
 .shopSec{margin:10px 0}
-.shopSec h3{font-size:11px;letter-spacing:3px;color:#a8896a;margin-bottom:7px;font-weight:900}
+.shopSec h3{font-size:12px;letter-spacing:3px;color:#a8896a;margin-bottom:7px;font-weight:900}
 .chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.chip{border-radius:12px;padding:8px 12px;font-weight:900;font-size:12px;cursor:pointer;
+.chip{border-radius:12px;padding:9px 13px;font-weight:900;font-size:13.5px;cursor:pointer;
   border:2px solid rgba(255,220,170,.25);background:rgba(255,235,200,.07);color:#ffe3b3;transition:transform .1s}
 .chip:hover{transform:scale(1.06)}
 .chip.active{border-color:#8bd450;box-shadow:0 0 12px rgba(139,212,80,.4)}
 .chip.owned{border-color:#ffd257}
-.chip .sw{display:inline-block;width:26px;height:10px;border-radius:6px;margin-right:6px;vertical-align:middle}
+.chip .sw{display:inline-block;width:26px;height:11px;border-radius:6px;margin-right:6px;vertical-align:middle}
 @media (max-width:560px){
-  .panel{padding:22px 14px 20px;border-radius:20px}
-  .btn{padding:10px 12px 8px;border-bottom-width:5px;border-radius:13px}
-  .tag{font-size:13px;margin:8px 0 10px}
-  .hint{font-size:10.5px;padding:5px 7px}
-  .specials{font-size:10.5px}
-  .best{font-size:12px}
-  .toast{font-size:12px;padding:7px 12px}
-  #scoreVal{font-size:clamp(26px,8vw,40px)}
-  #p2Val{font-size:clamp(22px,7vw,34px)}
-  #feverWrap{width:100px;height:8px}
-  .life{width:28px;height:28px;font-size:14px}
+  .panel{padding:22px 15px 20px;border-radius:20px}
+  .btn{padding:12px 14px 10px;border-bottom-width:5px;border-radius:14px}
+  .btn.big{padding:16px 14px 14px}
+  .btn.ghost{padding:12px 14px 10px}
+  .tag{font-size:15px;margin:8px 0 10px}
+  .hint{font-size:12.5px;padding:6px 9px}
+  .specials{font-size:12px}
+  .best{font-size:13px}
+  .toast{font-size:13px;padding:8px 13px}
+  #scoreVal{font-size:clamp(28px,8vw,42px)}
+  #p2Val{font-size:clamp(24px,7vw,36px)}
+  #feverWrap{width:104px;height:9px}
+  .life{width:29px;height:29px;font-size:15px}
   #lives{gap:6px}
-  .iconBtn{width:40px;height:40px;font-size:16px}
-  #zenTimer{font-size:clamp(20px,6vw,30px)}
-  #pwRow span{font-size:10px;padding:2px 8px}
-  .scoreList div{font-size:12px;padding:2px 10px}
-  .finalScore{font-size:clamp(40px,13vw,64px)}
-  .chip{font-size:11px;padding:7px 9px}
+  .iconBtn{width:42px;height:42px;font-size:17px}
+  #zenTimer{font-size:clamp(21px,6vw,32px)}
+  #pwRow span{font-size:12px;padding:3px 9px}
+  .scoreList div{font-size:13px;padding:3px 10px}
+  .finalScore{font-size:clamp(42px,13vw,68px)}
+  .chip{font-size:12.5px;padding:8px 10px}
 }
 @media (max-height:520px){
   .panel{padding:14px 16px;border-radius:18px}
@@ -168,14 +172,14 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;
   .logo .l1{font-size:clamp(20px,5.5vh,34px)}
   .logo .l2{font-size:clamp(24px,6.5vh,40px)}
   .sub{display:none}
-  .tag{font-size:12px;margin:4px 0 6px}
+  .tag{font-size:13px;margin:4px 0 6px}
   .hints,.specials,.keys,#achRow,#achCount{display:none}
   .modeGrid{max-width:560px;gap:5px}
-  .btn{padding:8px 10px 6px;font-size:clamp(13px,2.6vh,17px);border-bottom-width:4px}
-  .best{margin-top:6px;font-size:11px}
+  .btn{padding:9px 10px 7px;font-size:clamp(13px,2.8vh,17px);border-bottom-width:4px}
+  .best{margin-top:6px;font-size:12px}
   .scoreList{margin-top:4px}
-  .scoreList div{font-size:11px;padding:1px 10px}
-  .finalScore{font-size:clamp(30px,9vh,56px)}
+  .scoreList div{font-size:12px;padding:2px 10px}
+  .finalScore{font-size:clamp(32px,9vh,58px)}
   h2.head{font-size:clamp(22px,5.5vh,34px)}
   #rankBox{padding:4px 14px 3px;margin:2px 0}
 }
@@ -196,16 +200,16 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;
     </div>
   </div>
   <div id="rightHud">
-    <button id="pauseBtn" class="iconBtn" title="Pause">⏸</button>
+    <button type="button" id="pauseBtn" class="iconBtn" title="Pause">⏸</button>
     <div id="p2Box" class="hidden"><div id="p2Val">0</div><small>P2</small></div>
     <div id="lives"></div>
     <div id="zenTimer" class="hidden">1:00</div>
   </div>
 </div>
 <div id="soundBtns">
-  <button id="fsBtn" class="iconBtn" title="Vollbild (F)">⛶</button>
-  <button id="musicBtn" class="iconBtn" title="Musik an/aus">🎵</button>
-  <button id="sfxBtn" class="iconBtn" title="Effekte an/aus">🔊</button>
+  <button type="button" id="fsBtn" class="iconBtn" title="Vollbild">⛶</button>
+  <button type="button" id="musicBtn" class="iconBtn" title="Musik an/aus">🎵</button>
+  <button type="button" id="sfxBtn" class="iconBtn" title="Effekte an/aus">🔊</button>
 </div>
 
 <div id="menu" class="overlay">
@@ -214,11 +218,11 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;
     <div class="sub">BEAT EDITION</div>
     <p class="tag">Alles fliegt im Takt – schneide auf dem Beat!</p>
     <div class="modeGrid">
-      <button class="btn" id="btnClassic">⚔️ KLASSISCH</button>
-      <button class="btn green" id="btnZen">🧘 ZEN · 60s</button>
-      <button class="btn blue" id="btnDaily">📅 TAGES-CHALLENGE</button>
-      <button class="btn purple" id="btnDuel">⚔️ DUELL · 2P</button>
-      <button class="btn ghost" id="btnShop">🛍️ SHOP · 🪙</button>
+      <button type="button" class="btn" id="btnClassic">⚔️ KLASSISCH</button>
+      <button type="button" class="btn green" id="btnZen">🧘 ZEN · 60s</button>
+      <button type="button" class="btn blue" id="btnDaily">📅 TAGES-CHALLENGE</button>
+      <button type="button" class="btn purple" id="btnDuel">⚔️ DUELL · 2P</button>
+      <button type="button" class="btn ghost" id="btnShop">🛍️ SHOP · 🪙</button>
     </div>
     <div class="hints">
       <span class="hint">🍉 Wischen = schneiden</span>
@@ -240,7 +244,7 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;
     <h2 class="head">SHOP</h2>
     <p class="tag" id="shopCoins" style="margin-bottom:8px"></p>
     <div id="shopItems"></div>
-    <button class="btn ghost" id="shopBack" style="margin-top:12px">ZURÜCK</button>
+    <button type="button" class="btn ghost" id="shopBack" style="margin-top:12px">ZURÜCK</button>
   </div>
 </div>
 
@@ -255,9 +259,11 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;
     <div class="scoreList" id="overScores"></div>
     <p class="tag" id="overBest" style="margin:8px 0 8px"></p>
     <div>
-      <button class="btn green" id="retryBtn">NOCHMAL</button>
-      <button class="btn ghost" id="shareBtn">📤 TEILEN</button>
-      <button class="btn ghost" id="menuBtn">MENÜ</button>
+      <button type="button" class="btn green big" id="retryBtn">▶ NOCHMAL</button>
+    </div>
+    <div class="btnRow">
+      <button type="button" class="btn ghost" id="shareBtn">📤 TEILEN</button>
+      <button type="button" class="btn ghost" id="menuBtn">MENÜ</button>
     </div>
   </div>
 </div>
@@ -267,7 +273,7 @@ h2.head{font-family:'Luckiest Guy';font-size:clamp(28px,6vw,48px);color:#ff4b3e;
     <h2 class="head">PAUSE</h2>
     <p class="tag">Klinge ruht – der Beat wartet.</p>
     <p class="tag" id="pauseStats" style="margin-top:-10px;color:#ffcf8e"></p>
-    <button class="btn green" id="resumeBtn">WEITER</button>
+    <button type="button" class="btn green big" id="resumeBtn">WEITER</button>
   </div>
 </div>
 
@@ -295,7 +301,6 @@ const glowWarm=(()=>{const c=document.createElement('canvas');c.width=c.height=1
   g.fillStyle=r;g.fillRect(0,0,128,128);return c;})();
 let gvMiss,gvFever,gvFrenzy,gvZen;
 
-/* Sichtbarer Bereich (visualViewport) – garantiert echtes Zentrum auf Mobile */
 function getView(){
   const vv=window.visualViewport;
   if(vv)return{w:Math.round(vv.width),h:Math.round(vv.height),l:Math.round(vv.offsetLeft),t:Math.round(vv.offsetTop)};
@@ -953,7 +958,7 @@ function onBeat(b){
   if(state!=='play')return;
   if(cdLeft>0){
     cdLeft--;
-    if(cdLeft>0){bigPop(String(cdLeft),'#ffe3b3');if(AC)mTaiko(AC.currentTime,.6);}
+    if(cdLeft>0){bigPop(String(cdLeft),'#ffe3b3');punch(1.04,W/2,H*.45);if(AC)mTaiko(AC.currentTime,.6);}
     else{
       bigPop(mode==='duel'?'DUELL – LOS!':mode==='zen'?'ZEN – LOS!':'LOS!','#8bd450');
       sfx.start();
@@ -1640,44 +1645,51 @@ function renderAch(){
     `<span class="ach${ach.has(id)?'':' locked'}" title="${name} – ${desc}">${ach.has(id)?icon:'🔒'}</span>`).join('');
 }
 function startGame(m){
-  ensureAudio();initMusic();
-  clearWorld();
-  mode=m;lastMode=m;
-  dailyR=m==='daily'?mulberry32(+dCode()):null;
-  score=0;displayScore=0;lastShownScore=-1;$('scoreVal').textContent='0';
-  s1=0;s2=0;$('p2Val').textContent='0';
-  lives=3;charge=0;comboCount=0;statSliced=0;maxCombo=0;bossKills=0;
-  feverUntil=0;iceUntil=0;timeScale=1;frenzyQueued=false;frenzyUntil=0;
-  doubleUntil=0;attractUntil=0;lastPtr=null;
-  frenzyAt=0;beatBestToast=false;reason='';tutPop=null;lastZenSec=99;
-  cdLeft=3;nextBossAt=0;
-  document.body.classList.remove('fever');
-  document.body.classList.toggle('duel',m==='duel');
-  renderLives();
-  $('lives').classList.toggle('hidden',m==='zen'||m==='duel');
-  $('zenTimer').classList.toggle('hidden',!(m==='zen'||m==='duel'));
-  $('p2Box').classList.toggle('hidden',m!=='duel');
-  $('scoreLabel').textContent=m==='duel'?'P1':'PUNKTE';
-  $('feverWrap').style.display=m==='duel'?'none':'block';
-  $('pwRow').style.display=m==='duel'?'none':'flex';
-  $('rankBox').style.display='inline-block';
-  state='play';document.body.classList.add('playing');
-  startTime=performance.now();
-  zenEnd=m==='zen'?startTime+60000:0;
-  duelEnd=m==='duel'?startTime+60000:0;
-  if(m==='zen'||m==='duel')$('zenTimer').textContent='1:00';
-  frenzyAt=startTime+rnd(18000,26000);
-  nextBossAt=startTime+rnd(28000,38000);
-  beatEpoch=startTime;lastBeatInt=Math.floor(getBeat());
-  cam.z=1;cam.fx=W/2;cam.fy=H/2;camTX=W/2;camTY=H/2;
-  $('menu').classList.add('hidden');$('over').classList.add('hidden');$('hud').classList.remove('hidden');
-  if(isTouch&&W>H&&!localStorage.getItem('fnRotTip')){
-    localStorage.setItem('fnRotTip','1');
-    showToast('📱','TIPP','Hochformat spielt sich angenehmer');
-  }
-  if(!localStorage.getItem('fnTutDone')&&m!=='duel'){
-    tutPop={x:W/2,y:H*.55,txt:'↔ WISCHE ÜBER DIE FRÜCHTE!',col:'#fff',size:Math.min(30,W*.055),big:true,t:0,ttl:3.5,vy:-8};
-    pops.push(tutPop);
+  try{
+    ensureAudio();initMusic();
+    clearWorld();
+    mode=m;lastMode=m;
+    dailyR=m==='daily'?mulberry32(+dCode()):null;
+    score=0;displayScore=0;lastShownScore=-1;$('scoreVal').textContent='0';
+    s1=0;s2=0;$('p2Val').textContent='0';
+    lives=3;charge=0;comboCount=0;statSliced=0;maxCombo=0;bossKills=0;
+    feverUntil=0;iceUntil=0;timeScale=1;frenzyQueued=false;frenzyUntil=0;
+    doubleUntil=0;attractUntil=0;lastPtr=null;
+    frenzyAt=0;beatBestToast=false;reason='';tutPop=null;lastZenSec=99;
+    cdLeft=3;nextBossAt=0;
+    state='play';
+    document.body.classList.remove('fever');
+    document.body.classList.toggle('duel',m==='duel');
+    document.body.classList.add('playing');
+    $('menu').classList.add('hidden');$('over').classList.add('hidden');$('pauseOv').classList.add('hidden');
+    $('hud').classList.remove('hidden');
+    renderLives();
+    $('lives').classList.toggle('hidden',m==='zen'||m==='duel');
+    $('zenTimer').classList.toggle('hidden',!(m==='zen'||m==='duel'));
+    $('p2Box').classList.toggle('hidden',m!=='duel');
+    $('scoreLabel').textContent=m==='duel'?'P1':'PUNKTE';
+    $('feverWrap').style.display=m==='duel'?'none':'block';
+    $('pwRow').style.display=m==='duel'?'none':'flex';
+    $('rankBox').style.display='inline-block';
+    startTime=performance.now();
+    zenEnd=m==='zen'?startTime+60000:0;
+    duelEnd=m==='duel'?startTime+60000:0;
+    if(m==='zen'||m==='duel')$('zenTimer').textContent='1:00';
+    frenzyAt=startTime+rnd(18000,26000);
+    nextBossAt=startTime+rnd(28000,38000);
+    beatEpoch=startTime;lastBeatInt=Math.floor(getBeat());
+    cam.z=1;cam.fx=W/2;cam.fy=H/2;camTX=W/2;camTY=H/2;
+    if(isTouch&&W>H&&!localStorage.getItem('fnRotTip')){
+      localStorage.setItem('fnRotTip','1');
+      showToast('📱','TIPP','Hochformat spielt sich angenehmer');
+    }
+    if(!localStorage.getItem('fnTutDone')&&m!=='duel'){
+      tutPop={x:W/2,y:H*.55,txt:'↔ WISCHE ÜBER DIE FRÜCHTE!',col:'#fff',size:Math.min(30,W*.055),big:true,t:0,ttl:3.5,vy:-8};
+      pops.push(tutPop);
+    }
+  }catch(err){
+    console.error(err);
+    showToast('⚠️','FEHLER','Bitte Seite neu laden');
   }
 }
 function rankFor(s){
@@ -1728,6 +1740,10 @@ function gameOver(){
     $('rankLetter').textContent=rk;$('rankLetter').style.color=rc;
     $('rankName').textContent=rn;
     const rb=$('rankBox');rb.classList.remove('stamp');void rb.offsetWidth;rb.classList.add('stamp');
+    if(nb){
+      juiceBurst(W/2,H*.35,'#ffd257',70,2);
+      rings.push({x:W/2,y:H*.35,t:0,ttl:.8,col:'rgba(255,210,87,.8)',lw:6,maxR:Math.min(W,H)*.4});
+    }
     const t0=performance.now();
     (function cu(){
       const k=Math.min(1,(performance.now()-t0)/900),e=1-Math.pow(1-k,3);
@@ -1787,20 +1803,26 @@ function toggleFS(){
   }catch(e){showToast('⛶','NICHT VERFÜGBAR','Dein Browser unterstützt kein Vollbild');}
 }
 window.addEventListener('pointerdown',()=>{ensureAudio();initMusic();},{capture:true});
-$('btnClassic').onclick=()=>startGame('classic');
-$('btnZen').onclick=()=>startGame('zen');
-$('btnDaily').onclick=()=>startGame('daily');
-$('btnDuel').onclick=()=>startGame('duel');
-$('btnShop').onclick=()=>{sfx.click();$('menu').classList.add('hidden');buildShop();$('shopOv').classList.remove('hidden');};
-$('shopBack').onclick=()=>{sfx.click();toMenu();};
-$('retryBtn').onclick=()=>{sfx.click();startGame(lastMode);};
-$('menuBtn').onclick=()=>{sfx.click();toMenu();};
-$('resumeBtn').onclick=()=>{sfx.click();resumeGame();};
-$('pauseBtn').onclick=()=>{if(state==='play')pauseGame();};
-$('musicBtn').onclick=toggleMusic;
-$('sfxBtn').onclick=toggleSfx;
-$('fsBtn').onclick=toggleFS;
-$('shareBtn').onclick=()=>{
+/* Robuste Button-Bindung: click + Touch-Haptik, kein Doppel-Feuern */
+function bindTap(id,fn){
+  const el=$(id);
+  if(!el)return;
+  el.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();if(isTouch)vib(10);fn();});
+}
+bindTap('btnClassic',()=>startGame('classic'));
+bindTap('btnZen',()=>startGame('zen'));
+bindTap('btnDaily',()=>startGame('daily'));
+bindTap('btnDuel',()=>startGame('duel'));
+bindTap('btnShop',()=>{sfx.click();$('menu').classList.add('hidden');buildShop();$('shopOv').classList.remove('hidden');});
+bindTap('shopBack',()=>{sfx.click();toMenu();});
+bindTap('retryBtn',()=>{sfx.click();startGame(lastMode);});
+bindTap('menuBtn',()=>{sfx.click();toMenu();});
+bindTap('resumeBtn',()=>{sfx.click();resumeGame();});
+bindTap('pauseBtn',()=>{if(state==='play')pauseGame();});
+bindTap('musicBtn',toggleMusic);
+bindTap('sfxBtn',toggleSfx);
+bindTap('fsBtn',toggleFS);
+bindTap('shareBtn',()=>{
   let txt;
   if(mode==='duel')txt=`🍉 Fruit Ninja Duell: ${s1} : ${s2}! 🥷 Wer gewinnt bei euch?`;
   else txt=`🍉 Fruit Ninja – Beat Edition: ${score} Punkte (Rang ${lastRank})! 🥷 Schaffst du mehr?${mode==='daily'?' 📅 Code: '+dCode():''}`;
@@ -1810,7 +1832,7 @@ $('shareBtn').onclick=()=>{
     const b=$('shareBtn'),o=b.textContent;b.textContent='✅ KOPIERT!';
     setTimeout(()=>b.textContent=o,1400);
   }
-};
+});
 
 /* ================= LOOP ================= */
 let lastFrame=performance.now();
